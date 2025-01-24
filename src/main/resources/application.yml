@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: gateway
+  config:
+    import: "optional:configserver:http://localhost:8087"
+  mvc:
+    format:
+      date: iso
+      date-time: iso
+      time: iso
+  data:
+    web:
+      pageable:
+        default-page-size: 20000
+        max-page-size: 20000
+        one-indexed-parameters: true
+  cloud:
+    gateway:
+      routes:
+        - id: profile
+          uri: lb://profile
+          predicates:
+            - Path=/profile/**
+          filters:
+            - StripPrefix=1
+
+        - id: booking
+          uri: lb://booking
+          predicates:
+            - Path=/booking/**
+          filters:
+            - StripPrefix=1
+
+        - id: flight
+          uri: lb://flight
+          predicates:
+            - Path=/flight/**
+          filters:
+            - StripPrefix=1
+
+        - id: notification
+          uri: lb://notification
+          predicates:
+            - Path=/notification/**
+          filters:
+            - StripPrefix=1
+
+        - id: payment
+          uri: lb://payment
+          predicates:
+            - Path=/payment/**
+          filters:
+            - StripPrefix=1
+
+app:
+  jwt:
+    accessToken:
+      secret: "vurghmwnvy8v8tvnu4nytv78h456789_+P87bbeytuv4vbrgigui54h2guwb4u6ugbrjegt78gWK-0iqkrhuihgujnbutgh5utgg"
+      ttl: 86400000
+    refreshToken:
+      secret: "nhetdhirbniote8hbiotth589hfihfgh589tyhgih04hrviorgh85nifgh8trhnvbiurgh89hieh8hrughrh8giur"
+
+server:
+  port: 8082
